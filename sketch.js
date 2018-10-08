@@ -10,6 +10,8 @@ var yequ;
 var submit;
 var xinput;
 var yinput;
+var reset;
+var error;
 
 function setup(){
   createCanvas(500, 500);
@@ -19,7 +21,7 @@ function setup(){
   xinput = createInput();
   yinput = createInput();
   submit = createButton('submit');
-  submit.mousePressed(para)
+  submit.mousePressed(para);
 }
 
 function para(){
@@ -30,15 +32,24 @@ function para(){
 function draw(){
   background(105);
   translate(width/2, height/2);
+  error = false;
 
   //x = a * (1-cos(t)) * cos(t);
   //y = a * sin(t) * (1-cos(t));
   t+=interval;
-  var tempx = eval(xequ);
-  x = a * tempx;
-  print(x);
-  var tempy = eval(yequ);
-  y = a * tempy;
+  try{
+    eval(xequ);
+    eval(yequ);
+  }
+  catch(err){
+    error=true
+  }
+  if(!error) {
+    var tempx = eval(xequ);
+    x = a * tempx;
+    var tempy = eval(yequ);
+    y = a * tempy;
+  }
   v = createVector(x,y);
   ellipse(v.x,v.y,10,10)
   prev.push(v);
